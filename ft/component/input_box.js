@@ -22,3 +22,6 @@ FT.Component.InputBox = FT.Class.create( FT.Component.Base, {
 		this.element.focus();
 	}
 });
+
+/*
+ */
