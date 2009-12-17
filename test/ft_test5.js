@@ -1,6 +1,8 @@
 var NameListFormClass = FT.Component.Form.create({
 	fields: {
 		names: FT.Component.ArrayForm.create({
+			minForms: 3,
+			maxForms: 7,
 			form: FT.Component.Form.create({
 				fields: {
 					name: FT.Component.InputBox,

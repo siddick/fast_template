@@ -1,67 +1,59 @@
-/*
- * Example :-
- *	var NameListFormClass = FT.Component.Form.create({
- *		fields: {
- *			names: FT.Component.ArrayForm.create({
- *				form: FT.Component.Form.create({
- *					fields: {
- *						name: FT.Component.InputBox
- *					}
- *				})
- *			}),
- *			add: FT.Component.Button.create({
- *				events: {
- *					click: function(){
- *						this.getParent().getField('names').addForm();
- *					}
- *				}
- *			}),
- *			submit: FT.Component.Button.create({
- *				events: {
- *					click: function(){
- *						alert(this.getParent().getValue());
- *					}
- *				}
- *			})
- *		}
- *	});
- *
- *	HTML:-
- *	<div id='list' >
- * 	<table>
- * 		<tr name='names' > <td> <input name='name' /> </td> </tr>
- * 	<table>
- * 	<input name='add' value='add' />
- * 	<input name='submit' value='submit' />
- * </div>
- * 
- * Window Load Event :-
- *	var form = new NameListFormClass($('list'));
- */
 FT.Component.ArrayForm = FT.Class.create(FT.Component.Base,{
 	init: function(element){
 		this.forms 		= [];
 		this.formClass = this.config.form;
-		this.formHtml 	= this.getHTML(element);
+		this.formHtml 	= element.innerHTML;
+		element.update();
+		this.defaultForms = this.config.defaultForms || this.config.minForms || 1 ;
+		this.minForms 	= this.config.minForms || 0;
+		this.maxForms 	= this.config.maxForms || 1000;
+		this.minFormsError = this.config.minFormsError || 'Minimum Form should be '+this.minForms;
+		this.maxFormsError = this.config.maxFormsError || 'Maximum Form should be '+this.maxForms;
+
+		this._handleMinForms();
 	},
-	getHTML: function( element ){
-		var content = element.inspect() + element.innerHTML + '</' + element.tagName.toLowerCase() + '>';
-		return content;
-	}
 	addForm: function( fromForm ){
-		var element = this.getFormElement();
-		if( Object.isUndefined(fromForm) ){
-			fromForm = this.forms[ this.forms.length-1 ];
-		}
-		fromForm.getElement().insert({ after: element });
-	},
-	getFormElement: function(){
-		var newElement = new Element('span');
-		newElement.update( this.formHtml );
-		return newElement.childElements()[0];
+			if( this.forms.length >= this.maxForms ){
+				alert(this.maxFormsError);
+				return;
+			}
+			if( this.forms.length == 0 ){
+				this.getElement().update( this.formHtml );
+				this.forms.push( new this.formClass(this.getElement().down(0), this) );
+			} else {
+			  if( !fromForm ){
+				  fromForm = this.forms[ this.forms.length-1 ];
+			  }
+			  var element = fromForm.getElement();
+			  element.insert({ after: this.formHtml });
+			  element = element.next();
+			  this.forms.push( new this.formClass( element, this ) );
+			}
 	},
 	removeForm: function( fromForm ){
-	}
+		if( this.forms.length <= this.minForms ){
+			alert(this.minFormsError);
+			return;
+		}
+		this.forms = this.forms.without( fromForm );
+		fromForm.getElement().remove();
+	},
+	upForm: function( fromForm ){
+		var index = this.forms.indexOf( fromForm )
+		if( index > 0 ){
+			this.forms[index-1].getElement().insert({before: fromForm.getElement()});
+			this.forms[index] 	= this.forms[index-1];
+			this.forms[index-1] 	= fromForm;
+		}
+	},
+	downForm: function( fromForm ){
+		var index = this.forms.indexOf( fromForm )
+		if( index >= 0 && (index != (this.forms.length - 1)) ){
+			this.forms[index+1].getElement().insert({after: fromForm.getElement()});
+			this.forms[index] 	= this.forms[index+1];
+			this.forms[index+1] 	= fromForm;
+		}
+	},
 	getActualValue: function(){
 		var value = [];
 		for( var fIndex = 0; fIndex < this.forms.length; fIndex++ ){
@@ -80,5 +72,10 @@ FT.Component.ArrayForm = FT.Class.create(FT.Component.Base,{
 		}
 	},
 	addObserverHandler: function( eventName, eventHanlder ){
+	},
+	_handleMinForms: function(){
+		for( var f_index = 0; f_index < this.defaultForms; f_index++ ){
+			this.addForm();
+		}
 	}
 });

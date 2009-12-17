@@ -44,11 +44,11 @@ FT.Component.Base = FT.Class.create( FT.Base, {
 		}
 		handlers.push( eventHandler );
 	},
-	handleEvent: function( eventName ){
+	handleEvent: function( eventName, eventObject ){
 		var handlers = this.eventHandlers.get( eventName );
 		if( handlers ){
 			for( var index = 0; index < handlers.length; index++ ){
-				handlers[index](this);
+				handlers[index].bind(this)( eventObject );
 			}
 		}
 	},
