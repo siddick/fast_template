@@ -1,0 +1,71 @@
+.pagination_table a {
+  text-decoration: none;  
+  font-size: 11px;
+  color: black;
+  padding: 4px;
+}
+
+.pagination_table a.active {
+  font-weight: bold;
+  color: red;
+}
+
+.pagination_table {
+  border-spacing: 0px;
+}
+
+.pagination_table td {
+  padding: 0px;
+}
+
+active a {
+  color: black;
+}
+
+.page_button {
+  background: transparent url(../images/page/j_button2_left.png) no-repeat 100% 0;
+}
+.normal_button {
+  background: transparent url(../images/page/j_button2_left.png) no-repeat 100% 0;
+}
+
+.join_button {
+  background: transparent url(../images/page/join.png) no-repeat 100% 0;
+  width: 15px;
+}
+
+.start_button {
+  background: transparent url(../images/page/join.png) no-repeat 100% 0;
+  margin-left:2px;
+  width: 8px;
+}
+
+.end_button {
+  background: transparent url(../images/page/join.png) no-repeat 0 0;
+  margin-right:2px;
+  width: 8px;
+}
+
+.left_button.active {
+  background: transparent url(../images/page/left_active.png) no-repeat 0 0;
+  width: 11px;
+}
+
+.left_button {
+  background: transparent url(../images/page/left_deactive.png) no-repeat 0 0;
+  width: 11px;
+}
+
+.right_button.active {
+  background: transparent url(../images/page/right_active.png) no-repeat 0 0;
+  width: 11px;
+}
+
+.right_button {
+  background: transparent url(../images/page/right_deactive.png) no-repeat 0 0;
+  width: 11px;
+}
+
+.space5px {
+  width: 5px;
+}
