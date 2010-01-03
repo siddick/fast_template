@@ -27,7 +27,7 @@ FT.Widget.Form = FT.Class.create( FT.Widget.Base, {
 			this.loadForm( this.config.formHtml ); 
 		} else if( this.config.formUrl ){
 			this.element.hide();
-			FT.Communication.Rails.request( this.config.formUrl,
+			FT.Communication.Default.request( this.config.formUrl,
 				this.config.formUrlParams,
 				this.loadForm.bind(this));
 		}
@@ -47,7 +47,7 @@ FT.Widget.Form = FT.Class.create( FT.Widget.Base, {
 		if( this.config.data ){
 			this.loadData( this.config.data );
 		} else if( this.config.dataUrl ){
-			FT.Communication.Rails.request( this.config.dataUrl,
+			FT.Communication.Default.request( this.config.dataUrl,
 				this.config.dataUrlParams,
 				this.loadData.bind(this));
 		}
@@ -71,7 +71,7 @@ FT.Widget.Form = FT.Class.create( FT.Widget.Base, {
 			if( this.form ){
 				try{
 					params[key] = this.form.getValue().toJSON();
-					FT.Communication.Rails.request( this.config.submitUrl,
+					FT.Communication.Default.request( this.config.submitUrl,
 						params, this.submitResponseHanlder.bind(this) );
 				} catch( msg ){
 					if( Object.isString( msg )){ 

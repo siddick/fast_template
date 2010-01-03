@@ -29,7 +29,7 @@ FT.Util.ListView = FT.Class.create( {
 		if( !this.config.fields ){ throw("No Field Configuration for List View"); }
 		this.fields = [];
 
-		var th = new Element('th');
+		var th = new Element('th', { style:'text-align:left;' } );
 		th.update( '#' );
 		this._tableHeadTr.appendChild( th );
 
@@ -40,7 +40,7 @@ FT.Util.ListView = FT.Class.create( {
 		this._tableFootTrTd.setAttribute( 'colspan', fields.size() + 1 );
 	},
 	addField: function( field ){
-		var th = new Element('th');
+		var th = new Element('th', { style:'text-align:left;' } );
 		th.update( field.displayName );
 		
 		this._tableHeadTr.appendChild( th );
@@ -52,6 +52,7 @@ FT.Util.ListView = FT.Class.create( {
 		this._tableBody.update();
 	},
 	addRecords: function( records ){
+		this.clearRecords();
 		this.records = [];
 		this.checkBoxs = [] 
 		for( var rIndex = 0 ; rIndex < records.length; rIndex++ ){
