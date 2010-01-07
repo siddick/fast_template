@@ -212,7 +212,7 @@ FT.Util.Paginator = Class.create({
     this.activate_buttons();
 
     if( this.request ){
-      this.request((this.current_page-1)*this.display_pages, this.display_pages )
+      this.request((this.current_page-1)*this.display_records, this.display_records);
     }
   },
   click_next: function(){
